@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWS - 科研管理数字孪生平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cockpit-bg: #0a1f3d;
+            --cockpit-accent: #00f2ff;
+            --cockpit-accent-dim: rgba(0, 242, 255, 0.2);
+            --glass-bg: rgba(15, 38, 70, 0.7);
+            --panel-border: rgba(0, 242, 255, 0.25);
+            --ocean-dark: #0a1f3d;
+            --ocean-light: #153a6b;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--ocean-dark);
+            margin: 0;
+            overflow: hidden;
+            color: #f1f5f9;
+        }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .scifi-bg {
+            background: radial-gradient(circle at 50% -20%, #154b82 0%, #0a1f3d 85%);
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+        }
+
+        .light-rays {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(0, 242, 255, 0.12) 5%,
+                transparent 10%
+            );
+            filter: blur(40px);
+            opacity: 0.5;
+            transform: skewX(-20deg);
+            animation: rays-move 20s infinite linear;
+            z-index: -1;
+        }
+        @keyframes rays-move {
+            0% { transform: skewX(-20deg) translateX(-20%); }
+            100% { transform: skewX(-20deg) translateX(20%); }
+        }
+
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bubble {
+            position: absolute;
+            background: rgba(0, 242, 255, 0.2);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 50%;
+            animation: rise 15s infinite ease-in;
+        }
+        @keyframes rise {
+            0% { transform: translateY(110vh) scale(0); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
+        }
+
+        .scifi-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 242, 255, 0.08);
+            backdrop-filter: blur(20px);
+        }
+        
+        .scifi-panel::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 40%);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.8);
+        }
+
+        .scanline {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.02), transparent);
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+            z-index: 100;
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+        ::-webkit-scrollbar-thumb { background: var(--cockpit-accent); border-radius: 4px; }
+
+        /* 悬停特效样式 */
+        .icon-hover-effect {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        }
+        .icon-hover-effect:hover {
+            transform: scale(1.3) !important;
+            filter: drop-shadow(0 0 8px rgba(0, 242, 255, 1)) !important;
+        }
+
+        .number-hover-effect {
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            cursor: default;
+        }
+        .number-hover-effect:hover {
+            transform: scale(1.2) !important;
+            filter: brightness(1.3) !important;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.8) !important;
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 4s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "recharts": "https://esm.sh/recharts@^3.6.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
